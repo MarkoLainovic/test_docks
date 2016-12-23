@@ -12,13 +12,33 @@ void MainWindow::newItem()
 
 void MainWindow::paintEvent(QPaintEvent *event)
 {
-    QPainter painter(this);
-    painter.setWindow(QRect(0, 0, 100, 100));
+    static uint8_t clr = 0;
+    QPainter painter;
+    painter.begin(this);
+    painter.setRenderHint(QPainter::Antialiasing);
+
+//    helper.paint(&painter, event);
+
+    if ( true == drawSquare )
+    {
+        this->drawSquare = false;
+        clr += 5;
+
+        QRect rect(300, 300, 80, 60);
+        painter.drawRect(rect);
+        painter.fillRect(rect, QBrush(QColor(clr, clr, clr)) );
+    }
+    else
+    {
+        QWidget::paintEvent(event);
+    }
+    painter.end();
 }
 
 void MainWindow::newRandomSquare(int val)
 {
     ui->listWidget->addItem("draw rectangle");
+    this->drawSquare = true;
     QWidget::update();
 }
 
@@ -27,6 +47,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    drawSquare = false;
     connect(ui->pushButton, SIGNAL(clicked()), this, SLOT(newItem()));
 
     /**

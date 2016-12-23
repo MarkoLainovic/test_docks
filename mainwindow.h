@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include "helper.h"
 
 namespace Ui {
 class MainWindow;
@@ -21,6 +22,8 @@ public Q_SLOTS:
 
 private:
     Ui::MainWindow *ui;
+    Helper helper;
+    bool drawSquare;
 
 protected:
     void paintEvent(QPaintEvent *event);
